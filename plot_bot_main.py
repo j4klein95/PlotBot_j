@@ -50,7 +50,7 @@ def analyze_query_tweet():
 
 # Loop through 10
 #pages of tweets (total 100 tweets)
-    for x in range(15):
+    for x in range(30):
 
     # Get all tweets from home feed
         public_tweets = api.user_timeline(analysis_target, page=x)
