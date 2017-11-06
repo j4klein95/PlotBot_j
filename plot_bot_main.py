@@ -8,6 +8,8 @@ import json
 import time
 import os
 
+matplotlib.use('Agg')
+
 analyzer = SentimentIntensityAnalyzer()
 
 # establish your credentials; will need to change later using os.environ.get();
