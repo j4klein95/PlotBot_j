@@ -1,6 +1,6 @@
 import matplotlib
-import matplotlib.pyplot as plt
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import tweepy
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import datetime
