@@ -1,6 +1,7 @@
 import tweepy
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 import datetime
 import pandas as pd
 import numpy as np
@@ -8,7 +9,7 @@ import json
 import time
 import os
 
-matplotlib.use('Agg')
+
 
 analyzer = SentimentIntensityAnalyzer()
 
