@@ -50,7 +50,6 @@ home_twitter_name = "@GDBootCamp"
 
 def analyze_query_tweet():
 # Variables for holding sentiments
-    sentiments = []
 
 # Loop through 10
 #pages of tweets (total 100 tweets)
@@ -66,10 +65,10 @@ def analyze_query_tweet():
             compound = analyzer.polarity_scores(tweet["text"])["compound"]
 
         # Add sentiments for each tweet into an array
-            sentiments.append({"Date": tweet["created_at"],
+            sentiments_pd = pd.DataFrame({"Date": tweet["created_at"],
                                "Compound": compound,
                                })
-        sentiments_pd = pd.DataFrame.from_dict(sentiments)
+
         # Create plot
         plt.plot(np.arange(len(sentiments_pd["Compound"])),
                  sentiments_pd["Compound"], marker="o", linewidth=0.5,
