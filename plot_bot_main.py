@@ -1,8 +1,8 @@
-import tweepy
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
+import tweepy
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import datetime
 import pandas as pd
 import numpy as np
