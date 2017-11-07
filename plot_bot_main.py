@@ -34,26 +34,16 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser(), wait_on_rate_limit = 
 
 my_twitter = "@GDBootCamp"
 
-# Get all tweets from home feed
-public_tweets = api.search(my_twitter)
-
-# Loop through all tweets
-for tweet in public_tweets:
-
-    # Utilize JSON dumps to generate a pretty-printed json
-    print(json.dumps(tweet, sort_keys=True, indent=4, separators=(',', ': ')))
-#set up who I am:
 home_twitter_name = "@GDBootCamp"
 
-
 #create function for analyzing tweets:
-
 def analyze_query_tweet():
 # Variables for holding sentiments
-    sentiments = []
-# Loop through 10
-#pages of tweets (total 100 tweets)
-    for x in range(30):
+    counter = 1
+    compound = []
+
+# Loop through 5 pages of tweets (total 100 tweets)
+    for x in range(25):
 
     # Get all tweets from home feed
         public_tweets = api.user_timeline(analysis_target, page=x)
@@ -61,33 +51,32 @@ def analyze_query_tweet():
     # Loop through all tweets
         for tweet in public_tweets:
 
+        # Print Tweets
+        # print("Tweet %s: %s" % (counter, tweet["text"]))
+
         # Run Vader Analysis on each tweet
-            compound = analyzer.polarity_scores(tweet["text"])["compound"]
+            compound.append(analyzer.polarity_scores(tweet["text"])["compound"])
+            tweets_ago = counter
 
-        # Add sentiments for each tweet into an array
-            sentiments.append({"Date": tweet["created_at"],
-                               "compound": compound,
-                               })
-        sentiments_pd = pd.DataFrame.from_dict(sentiments)
+        sentiments_pd = pd.DataFrame({"Compound" : compound})
 
-        # Create plot
-        plt.plot(np.arange(len(sentiments_pd["compound"])),
-                 sentiments_pd["compound"], marker="o", linewidth=0.5,
-                 alpha=0.8, label=analysis_target)
+
+    plt.plot(np.arange(len(sentiments_pd["Compound"])),
+         sentiments_pd["Compound"], marker="o", linewidth=0.5,
+         alpha=0.8)
 
 # # Incorporate the other graph properties
-        plt.title("Sentiment Analysis of Tweets (%s) for %s" % (time.strftime("%x"), analysis_target))
-        plt.legend(title= "Tweets", bbox_to_anchor=(1,1), loc='upper left', labels='@%s' % analysis_target)
-        plt.ylabel("Tweet Polarity")
-        plt.xlabel("Tweets Ago")
-        Chart_file_name = "sentimentAnalysis_" + analysis_target + '.png'
-        plt.savefig(Chart_file_name, bbox_inches="tight")
-        api.update_with_media(Chart_file_name, "Analysis for a new tweet: @" + analysis_target + ". Thanks" + query_user)
-        print("tweet analyzed.")
-
+    plt.title("Sentiment Analysis of Tweets (%s) for %s" % (time.strftime("%x"), analysis_target))
+    plt.legend(title= "Tweets", bbox_to_anchor=(1,1), loc='upper left', labels='@%s' % analysis_target)
+    plt.ylabel("Tweet Polarity")
+    plt.xlabel("Tweets Ago")
+    Chart_file_name = "sentimentAnalysis_" + analysis_target + '.png'
+    plt.savefig(Chart_file_name, bbox_inches="tight")
+    api.update_with_media(Chart_file_name, "Analysis for a new tweet: @" + analysis_target + ". Thanks" + query_user)
 print("Function Works")
 
 #create function for finding tweets:
+
 
 while(True):
 
@@ -104,5 +93,7 @@ while(True):
             analysis_target = mention["entities"]["user_mentions"][1]["screen_name"]
             query_user = mention["user"]["screen_name"]
             analyze_query_tweet()
-
+        else:
+            print("Already analyzed user.")
+            
     time.sleep(300)
