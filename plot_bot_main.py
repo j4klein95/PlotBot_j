@@ -70,9 +70,10 @@ def analyze_query_tweet():
     plt.legend(title= "Tweets", bbox_to_anchor=(1,1), loc='upper left', labels='@%s' % analysis_target)
     plt.ylabel("Tweet Polarity")
     plt.xlabel("Tweets Ago")
+    plt.grid(True)
     Chart_file_name = "sentimentAnalysis_" + analysis_target + '.png'
     plt.savefig(Chart_file_name, bbox_inches="tight")
-    api.update_with_media(Chart_file_name, "Analysis for a new tweet: @" + analysis_target + ". Thanks" + query_user)
+    api.update_with_media(Chart_file_name, "Analysis for a new tweet: @" + analysis_target + ". Thanks @" + query_user)
 print("Function Works")
 
 #create function for finding tweets:
@@ -95,5 +96,5 @@ while(True):
             analyze_query_tweet()
         else:
             print("Already analyzed user.")
-            
+
     time.sleep(300)
